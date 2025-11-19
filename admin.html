@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Laundry</title>
+</head>
+<body>
+
+    <h2>Login Admin</h2>
+
+    <form id="loginForm">
+        <label>Password:</label><br>
+        <input type="password" id="adminPassword" required><br><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <hr>
+
+    <h2>Pesanan Masuk</h2>
+    <div id="pesananList"></div>
+
+
+<script>
+// ================================
+//  LOGIN ADMIN
+// ================================
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const pw = document.getElementById("adminPassword").value;
+
+    if (pw === "Saudahpulo") {
+        alert("Login berhasil!");
+        loadPesanan();
+    } else {
+        alert("Password salah!");
+    }
+});
+
+
+// ================================
+//  LOAD PESANAN DARI localStorage
+// ================================
+function loadPesanan() {
+    const list = document.getElementById("pesananList");
+    let data = JSON.parse(localStorage.getItem("pesananLaundry") || "[]");
+
+    if (data.length === 0) {
+        list.innerHTML = "Belum ada pesanan.";
+        return;
+    }
+
+    list.innerHTML = "";
+    data.reverse().forEach(p => {
+        list.innerHTML += `
+            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                <b>Nama:</b> ${p.nama}<br>
+                <b>Alamat:</b> ${p.alamat}<br>
+                <b>Metode:</b> ${p.metode}<br><br>
+                <img src="${p.foto}" width="150"><br><br>
+                <b>Waktu:</b> ${p.waktu}
+            </div>
+        `;
+    });
+}
+</script>
+
+</body>
+</html>
